@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ER Entrance System</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -14,7 +14,7 @@
             <p class="subtitle">Please fill out the form below to register</p>
         </header>
         
-        <form method="POST" action="submission.html" class="patient-form">
+        <form method="POST" action="/submit" class="patient-form">
             <div class="form-group">
                 <label for="fullname">Full Name</label>
                 <input type="text" id="fullname" name="fullname" placeholder="John Doe" required>
@@ -50,7 +50,6 @@
     </div>
 
     <script>
-        // Update severity value display
         const severitySlider = document.getElementById('severity');
         const severityValue = document.getElementById('severity-value');
         
