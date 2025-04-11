@@ -13,8 +13,14 @@
             <div class="checkmark">✓</div>
             <h2>Registration Successful</h2>
             <p>Thank you, {{ patient.fullname }}. Your information has been recorded.</p>
+            <div class="patient-details">
+                <p><strong>Age:</strong> {{ patient.age }}</p>
+                <p><strong>Symptoms:</strong> {{ patient.symptoms }}</p>
+                <p><strong>Onset:</strong> {{ patient.time_ago }}</p>
+                <p><strong>Severity:</strong> {{ patient.severity }}/10</p>
+            </div>
             <p class="priority-notice">Priority: {{ patient.priority }}</p>
-            <a href="index.html" class="return-btn">Register Another Patient</a>
+            <a href="{{ url_for('index') }}" class="return-btn">Register Another Patient</a>
         </div>
     </div>
 </body>
