@@ -1,0 +1,2 @@
+PatientID,Service,Cost,Total,DiscountedTotal,PaymentMethod,Date
+P1001,Emergency Services,2550.00,2550.00,2295.00,card,2025-04-18

@@ -1,0 +1,2 @@
+patient_id,name,age,urgent_care,specialist_needed,regular_checkup,follow_up,insurance,chronic_condition,specific_doctor,insurance_type
+P1001,Michael Jackson ,38,y,n,n,n,y,n,,private

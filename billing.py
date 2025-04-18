@@ -106,9 +106,9 @@ class BillingSystem:
         discounted_total = total
         if patient.insurance == 'y':
             if patient.insurance_type == 'private':
-                discounted_total = total * 0.90  # 10% discount for private
+                discounted_total = total * 0.1  # 10% discount for private
             elif patient.insurance_type == 'public':
-                discounted_total = total * 0.80  # 20% discount for public
+                discounted_total = total * 0.2  # 20% discount for public
                 
         # Display totals
         print(f"\nYour total is €{total:.2f}.")
