@@ -1,0 +1,21 @@
+DoctorID,DoctorName,Department
+D001,Alice Hart,Cardiology
+D002,Robert Kim,Cardiology
+D003,Bob Stone,Neurology
+D004,Lisa Wong,Neurology
+D005,Clara Keys,Oncology
+D006,James Liu,Oncology
+D007,David Pine,Pediatrics
+D008,Monica Chu,Pediatrics
+D009,Eva Reed,Emergency
+D010,Victor Cruz,Emergency
+D011,Mira Shah,OBGYN
+D012,Jason Lin,OBGYN
+D013,Alex Costa,Urology
+D014,Tina Wang,Urology
+D015,Samuel Davis,Orthopedics
+D016,Ana Mendez,Orthopedics
+D017,Julia Moore,Diagnoses
+D018,Kevin Zhao,Diagnoses
+D019,Daniel Petro,Radiology
+D020,Sophie Elmas,Radiology
