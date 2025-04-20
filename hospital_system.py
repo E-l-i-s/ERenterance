@@ -2,7 +2,7 @@ from utilities import get_valid_input, load_patients_from_csv, save_patient_to_c
 from billing import BillingSystem
 from doctors import load_doctors
 from patient import Patient
-import random
+
 class HospitalSystem:
     def __init__(self):
         # Initialize the BillingSystem first (needed for patient registration)
@@ -102,7 +102,37 @@ class HospitalSystem:
         
         # Additional information
         regular_checkup = get_valid_input("Regular Checkup (y/n): ", "yes_no")
-        
+
+        if regular_checkup == 'y':
+            # Only collect minimal data and finish
+            follow_up = 'n'
+            chronic_condition = 'n'
+            insurance = get_valid_input("Has Insurance (y/n): ", "yes_no")
+            insurance_type = None
+            if insurance == 'y':
+                insurance_type = get_valid_input("Insurance Type (private/public): ", "choice", ["private", "public"])
+            new_id = f"P{1000 + len(self.patients) + 1}"
+            new_patient = Patient(
+                patient_id=new_id,
+                name=name,
+                age=age,
+                urgent_care=urgent_care,
+                specialist_needed='n',
+                regular_checkup=regular_checkup,
+                follow_up=follow_up,
+                insurance=insurance,
+                chronic_condition=chronic_condition,
+                specific_doctor=None,
+                insurance_type=insurance_type
+            )
+            self.patients.append(new_patient)
+            save_patient_to_csv(new_patient)
+            print(f"\nPatient registered successfully with ID: {new_id}")
+            room_number = random.randint(100, 199)
+            print(f"Please proceed to Room #{room_number} for your checkup.")
+            self.calculate_billing_for_new_patient(new_patient)
+            return
+
         # Only ask for specialist if not urgent care
         specialist_needed = 'n'
         specific_doctor = None
@@ -144,11 +174,7 @@ class HospitalSystem:
                     
         follow_up = get_valid_input("Follow-up Appointment (y/n): ", "yes_no")
         chronic_condition = get_valid_input("Has Chronic Condition (y/n): ", "yes_no")
-        
-        # Insurance should be the last question
         insurance = get_valid_input("Has Insurance (y/n): ", "yes_no")
-        
-        # Ask for insurance type if has insurance
         insurance_type = None
         if insurance == 'y':
             insurance_type = get_valid_input("Insurance Type (private/public): ", "choice", ["private", "public"])
@@ -381,9 +407,6 @@ def run(self):
             pandas_patient_summary_plot()
         elif choice == 5:
             return
-
-
-
 
 if __name__ == "__main__":
     HospitalSystem().run()

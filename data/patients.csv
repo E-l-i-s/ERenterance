@@ -1,4 +1,16 @@
 patient_id,name,age,urgent_care,specialist_needed,regular_checkup,follow_up,insurance,chronic_condition,specific_doctor,insurance_type
-P1001,Michael Jackson ,38,y,n,n,n,y,n,,private
-P1002,Jose,45,y,n,n,n,n,n,,
-P1003,Salome Dzidziguri,38,n,y,y,n,y,n,"{'DoctorID': 'D012', 'DoctorName': 'Jason Lin'}",private
+P1001,Michael Jackson ,38,y,n,n,n,y,y,n,private
+P1003,Salome Dzidziguri,38,n,y,y,n,y,y,n,"{'DoctorID': 'D012', 'DoctorName': 'Jason Lin'}"
+P1004,Jackie Chan,47,y,n,n,n,y,y,n,private
+P1006,sophie jgenti,14,y,n,n,n,y,y,n,public
+P1007,tessint fac,34,n,n,n,n,y,y,n,private
+P1008,ME,18,n,y,y,n,y,y,n,"{'DoctorID': 'D012', 'DoctorName': 'Jason Lin'}"
+P1002,Jose,45,y,n,n,n,y,y,n,private
+P1005,Lola,34,y,n,n,n,y,y,n,private
+P1011,joe jonas,87,n,y,n,n,y,y,n,public
+P1012,nick jonas,23,y,y,n,n,y,y,n,"{'DoctorID': 'D001', 'DoctorName': 'Alice Hart'}"
+P1013,Mark sloan,52,n,y,n,n,y,y,n,"{'DoctorID': 'D016', 'DoctorName': 'Ana Mendez'}"
+P1014,lexie grey,22,n,y,n,y,y,y,n,"{'DoctorID': 'D011', 'DoctorName': 'Mira Shah'}"
+P1015,Meredith grey,53,n,y,n,n,y,y,n,"{'DoctorID': 'D018', 'DoctorName': 'Kevin Zhao'}"
+P1016,jackson avery,38,y,n,n,n,y,y,n,private
+P1015,testint,66,n,n,y,n,y,n,,public
