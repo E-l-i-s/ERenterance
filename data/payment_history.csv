@@ -1,2 +1,4 @@
 PatientID,Service,Cost,Total,DiscountedTotal,PaymentMethod,Date
 P1001,Emergency Services,2550.00,2550.00,2295.00,card,2025-04-18
+P1003,Regular Checkup,45.00,95.00,85.50,card,2025-04-19
+P1003,Laboratory Services,50.00,95.00,85.50,card,2025-04-19

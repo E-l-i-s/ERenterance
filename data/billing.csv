@@ -1,7 +1,8 @@
-Service,MinPrice,MaxPrice
-Regular Checkup,45,45
-Blood Test,18,18
-Laboratory Services,50,50
-Imaging Services,100,500
-Surgical Procedures,2300,33000
-Emergency Services,100,5000
+Service,Price
+Regular Checkup,45
+Blood Test,18
+Laboratory Services,50
+Imaging Services,100
+Surgical Procedures,2300
+Emergency Services,100
+Specialist Consultation,30

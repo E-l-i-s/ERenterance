@@ -1,2 +1,4 @@
 patient_id,name,age,urgent_care,specialist_needed,regular_checkup,follow_up,insurance,chronic_condition,specific_doctor,insurance_type
 P1001,Michael Jackson ,38,y,n,n,n,y,n,,private
+P1002,Jose,45,y,n,n,n,n,n,,
+P1003,Salome Dzidziguri,38,n,y,y,n,y,n,"{'DoctorID': 'D012', 'DoctorName': 'Jason Lin'}",private
