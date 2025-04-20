@@ -2,7 +2,6 @@ from utilities import get_valid_input, load_patients_from_csv, save_patient_to_c
 from billing import BillingSystem
 from doctors import load_doctors
 from patient import Patient
-import random
 
 class HospitalSystem:
     def __init__(self):
@@ -24,7 +23,8 @@ class HospitalSystem:
         print("1. Patient Services")
         print("2. Emergency")
         print("3. Algorithm Tools")
-        print("4. Exit")
+        print("4. Something cool")
+        print("5. Exit")
 
     def display_patient_services_menu(self):
         """
@@ -244,7 +244,7 @@ class HospitalSystem:
         while True:
             self.display_main_menu()
             try:
-                choice = get_valid_input("Enter your choice (1-4): ", "number", [1, 4])
+                choice = get_valid_input("Enter your choice (1-5): ", "number", [1, 5])
             except Exception as e:
                 print(f"Input error: {e}")
                 continue
@@ -255,6 +255,10 @@ class HospitalSystem:
             elif choice == 3:
                 self.run_algorithm_tools()
             elif choice == 4:
+                from qr_cool import show_qr
+                show_qr()
+                input("\nPress Enter to return to the menu...")
+            elif choice == 5:
                 print("\nThank you for using Melitina Memorial Hospital System.")
                 break
 
@@ -378,7 +382,7 @@ def run(self):
     while True:
         self.display_main_menu()
         try:
-            choice = get_valid_input("Enter your choice (1-4): ", "number", [1, 4])
+            choice = get_valid_input("Enter your choice (1-5): ", "number", [1, 5])
         except Exception as e:
             print(f"Input error: {e}")
             continue
@@ -397,17 +401,130 @@ def run(self):
             elif filter_choice == 3:
                 insurance_type = get_valid_input("Insurance type (private/public): ", "choice", ["private", "public"])
                 from utilities import print_insurance_group_summary
-                print_insurance_group_summary(self.patients, insurance_type)
-
         elif choice == 3:
-            print("\nPandas Patient Summary: Shows a well-formatted summary of all patients using Pandas.")
-            pandas_patient_summary()
+            self.run_algorithm_tools()
         elif choice == 4:
-            print("\nPatient Summary Chart: Visual summary using matplotlib. Chart saved as data/patient_summary.png.")
-            from utilities import pandas_patient_summary_plot
-            pandas_patient_summary_plot()
+            from qr_cool import show_qr
+            show_qr()
+            input("\nPress Enter to return to the menu...")
         elif choice == 5:
+            print("\nThank you for using Melitina Memorial Hospital System.")
+            break
+
+def run_algorithm_tools(self):
+    """Display algorithm tools submenu and handle actions."""
+    while True:
+        print("\n=== Algorithm Tools ===")
+        print("1. Show Patient Age Group Summary")
+        print("2. Return to Main Menu")
+        algo_choice = get_valid_input("Choose option (1-2): ", "number", [1, 2])
+        if algo_choice == 1:
+            pandas_patient_summary()
+        elif algo_choice == 2:
+            break
+
+def run_patient_services(self):
+    """Handle patient services submenu"""
+    while True:
+        self.display_patient_services_menu()
+        choice = get_valid_input("Choose option (1-6): ", "number", [1, 6])
+        if choice == 1:                
+            name = get_valid_input("Enter patient name: ", "text")
+            age = get_valid_input("Enter patient age: ", "number", [0, 120])
+            patient_id = f"P{1000 + len(self.patients) + 1}"
+            insurance = None
+            insurance_type = None
+            urgent_care = get_valid_input("Needs urgent care? (y/n): ", "yes_no")
+            specialist_needed = get_valid_input("Needs specialist? (y/n): ", "yes_no")
+            specific_doctor = None
+            if specialist_needed == 'y':
+                # Show departments
+                departments = list(self.doctors.keys())
+                print("\nAvailable Departments:")
+                for i, dept in enumerate(departments, 1):
+                    print(f"{i}. {dept}")
+                dept_choice = get_valid_input("Select Department (number): ", "number", [1, len(departments)])
+                selected_dept = departments[dept_choice - 1]
+                # Show doctors
+                doctors_in_dept = self.doctors[selected_dept]
+                print(f"\nDoctors in {selected_dept}:")
+                for i, doctor in enumerate(doctors_in_dept, 1):
+                    print(f"{i}. {doctor['DoctorName']} ({doctor['DoctorID']})")
+                doc_choice = get_valid_input("Select Doctor (number): ", "number", [1, len(doctors_in_dept)])
+                selected_doctor = doctors_in_dept[doc_choice - 1]
+                specific_doctor = selected_doctor
+            regular_checkup = get_valid_input("Needs regular checkup? (y/n): ", "yes_no")
+            follow_up = get_valid_input("Needs follow up? (y/n): ", "yes_no")
+            chronic_condition = get_valid_input("Chronic condition? (y/n): ", "yes_no")
+            insurance = get_valid_input("Has insurance? (y/n): ", "yes_no")
+            insurance_type = None
+            if insurance == 'y':
+                insurance_type = get_valid_input("Insurance Type (private/public): ", "choice", ["private", "public"])
+            from patient import Patient
+            new_patient = Patient(
+                patient_id=patient_id,
+                name=name,
+                age=age,
+                urgent_care=urgent_care,
+                specialist_needed=specialist_needed,
+                regular_checkup=regular_checkup,
+                follow_up=follow_up,
+                insurance=insurance,
+                chronic_condition=chronic_condition,
+                specific_doctor=specific_doctor,
+                insurance_type=insurance_type
+            )
+            self.patients.append(new_patient)
+            from utilities import save_patient_to_csv
+            save_patient_to_csv(new_patient)
+            print(f"Patient {name} registered with ID {patient_id}.")
+
+            # Calculate and display billing
+            total, discounted = self.billing_system.calculate_patient_bill(new_patient)
+            if insurance_type:
+                print(f"The total is €{total:.2f} but with {insurance_type} insurance reduction it is: €{discounted:.2f}")
+            else:
+                print(f"The total is €{total:.2f}")
+
+            # Prompt for payment method
+            payment_method = ""
+            while payment_method.lower() not in ['cash', 'card']:
+                payment_method = get_valid_input("Payment method (cash/card): ", "choice", ["cash", "card"])
+
+            # Process payment via billing system
+            self.billing_system.process_payment_for_patient(new_patient, total, discounted, payment_method)
+            # Calculate billing
+            total, discounted = self.billing_system.calculate_patient_bill(new_patient)
+            if insurance_type:
+                print(f"The total is €{total:.2f} but with {insurance_type} insurance reduction it is: €{discounted:.2f}")
+            else:
+                print(f"The total is €{total:.2f}")
             return
+
+        elif choice == 2:
+            self.display_all_patients()
+        elif choice == 3:
+            self.search_patient_by_name()
+        elif choice == 4:
+            self.billing_system.process_billing(self.patients)
+        elif choice == 5:
+            self.billing_system.display_payment_history()
+        elif choice == 6:
+            break
+
+def search_patient_by_name(self):
+    """Prefix search on patient.name."""
+    if not self.patients:
+        print("\nNo patients in the system.")
+        return
+    search_term = get_valid_input("\nEnter name to search: ", "text").lower()
+    found_patients = [p for p in self.patients if search_term in p.name.lower()]
+    if not found_patients:
+        print("No patients found matching that name.")
+    else:
+        print("\n=== Matching Patients ===")
+        for patient in found_patients:
+            print(patient)
 
 if __name__ == "__main__":
     HospitalSystem().run()
