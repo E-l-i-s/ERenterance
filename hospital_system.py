@@ -2,7 +2,7 @@ from utilities import get_valid_input, load_patients_from_csv, save_patient_to_c
 from billing import BillingSystem
 from doctors import load_doctors
 from patient import Patient
-
+import random
 class HospitalSystem:
     def __init__(self):
         # Initialize the BillingSystem first (needed for patient registration)
