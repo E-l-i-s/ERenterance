@@ -2,6 +2,7 @@ from utilities import get_valid_input, load_patients_from_csv, save_patient_to_c
 from billing import BillingSystem
 from doctors import load_doctors
 from patient import Patient
+import random
 
 class HospitalSystem:
     def __init__(self):
@@ -266,12 +267,55 @@ class HospitalSystem:
         """Display algorithm tools submenu and handle actions."""
         while True:
             print("\n=== Algorithm Tools ===")
-            print("1. Show Patient Age Group Summary")
-            print("2. Return to Main Menu")
-            algo_choice = get_valid_input("Choose option (1-2): ", "number", [1, 2])
-            if algo_choice == 1:
+            print("1. Show Patient Summary Report")
+            print("2. Bubble Sort Patients by Age")
+            print("3. Merge Sort Patients by Name")
+            print("4. Linear Search Patient by ID")
+            print("5. Binary Search Patient by Name")
+            print("6. Filter Patients (Truth Table)")
+            print("7. Compare Sort Performance")
+            print("8. Return to Main Menu")
+            choice = get_valid_input("Choose option (1-8): ", "number", [1, 8])
+            if choice == 1:
+                from utilities import pandas_patient_summary
                 pandas_patient_summary()
-            elif algo_choice == 2:
+            elif choice == 2:
+                from utilities import bubble_sort_patients_by_age
+                sorted_patients = bubble_sort_patients_by_age(self.patients)
+                print("\nSorted by Age (Bubble Sort):")
+                for p in sorted_patients:
+                    print(p)
+            elif choice == 3:
+                from utilities import merge_sort_patients_by_name
+                sorted_patients = merge_sort_patients_by_name(self.patients)
+                print("\nSorted by Name (Merge Sort):")
+                for p in sorted_patients:
+                    print(p)
+            elif choice == 4:
+                pid = get_valid_input("Enter patient ID: ", "text")
+                from utilities import linear_search_patient_by_id
+                patient = linear_search_patient_by_id(self.patients, pid)
+                print(str(patient) if patient else "Not found.")
+            elif choice == 5:
+                name = get_valid_input("Enter patient name: ", "text")
+                from utilities import merge_sort_patients_by_name, binary_search_patient_by_name
+                sorted_patients = merge_sort_patients_by_name(self.patients)
+                patient = binary_search_patient_by_name(sorted_patients, name)
+                print(str(patient) if patient else "Not found.")
+            elif choice == 6:
+                urgent = get_valid_input("Urgent care? (y/n/leave blank): ", "text")
+                insured = get_valid_input("Insured? (y/n/leave blank): ", "text")
+                urgent = urgent if urgent in ['y', 'n'] else None
+                insured = insured if insured in ['y', 'n'] else None
+                from utilities import filter_patients_truth_table
+                filtered = filter_patients_truth_table(self.patients, urgent, insured)
+                print("\nFiltered Patients:")
+                for p in filtered:
+                    print(p)
+            elif choice == 7:
+                from utilities import compare_sort_performance
+                compare_sort_performance(self.patients)
+            elif choice == 8:
                 break
 
     def run_patient_services(self):
