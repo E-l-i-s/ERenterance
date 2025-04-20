@@ -26,12 +26,11 @@ class BillingSystem:
     def __init__(self):
         self.services = self.load_services()
         
-    def load_services(self, filepath="data/billing.csv") -> Dict[str, Tuple[float, float]]:
+    def load_services(self, filepath="data/billing.csv") -> Dict[str, float]:
         """
-        Reads data/billing.csv into {service: (min, max)}
+        Reads data/billing.csv into {service: price}
         """
         services = {}
-        
         try:
             # Ensure directory exists
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
@@ -41,16 +40,59 @@ class BillingSystem:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     service_name = row['Service']
-                    min_price = float(row['MinPrice'])
-                    max_price = float(row['MaxPrice'])
-                    services[service_name] = (min_price, max_price)
-                    
+                    price = float(row['Price'])
+                    services[service_name] = price
             return services
             
         except Exception as e:
             print(f"Error loading services: {e}")
             return {}
             
+    def calculate_patient_bill(self, patient):
+        """
+        Calculate (total, discounted_total) for a patient (no printing or I/O)
+        """
+        total = 0.0
+        if patient.regular_checkup == 'y':
+            service = "Regular Checkup"
+            cost = self.services.get(service, 0.0)
+            total += cost
+        if patient.urgent_care == 'y':
+            service = "Emergency Services"
+            cost = self.services.get(service, 0.0)
+            total += cost
+        if patient.specialist_needed == 'y':
+            service = "Specialist Consultation"
+            cost = self.services.get(service, 0.0)
+            total += cost
+        discounted_total = total
+        if patient.insurance == 'y':
+            if patient.insurance_type == 'private':
+                discounted_total = total * 0.1  # Patient pays 10%
+            elif patient.insurance_type == 'public':
+                discounted_total = total * 0.2  # Patient pays 20%
+        return total, discounted_total
+
+    def process_payment_for_patient(self, patient, total, discounted, payment_method):
+        """
+        Build services_used from patient and save payment history, then print confirmation.
+        """
+        services_used = []
+        if patient.regular_checkup == 'y':
+            service = "Regular Checkup"
+            cost = self.services.get(service, 0.0)
+            services_used.append((service, cost))
+        if patient.urgent_care == 'y':
+            service = "Emergency Services"
+            cost = self.services.get(service, 0.0)
+            services_used.append((service, cost))
+        if patient.specialist_needed == 'y':
+            service = "Specialist Consultation"
+            cost = self.services.get(service, 0.0)
+            services_used.append((service, cost))
+        self.save_payment_history(patient.patient_id, services_used, total, discounted, payment_method)
+        print("Payment processed successfully.")
+
     def process_billing(self, patients: List[Patient]):
         """
         Process billing for a patient
@@ -84,21 +126,19 @@ class BillingSystem:
         
         if patient.regular_checkup == 'y':
             service = "Regular Checkup"
-            cost = self.services.get(service, (0, 0))[0]  # Use min price
+            cost = self.services.get(service, 0.0)
             total += cost
             services_used.append((service, cost))
-            
+        
         if patient.urgent_care == 'y':
             service = "Emergency Services"
-            # For emergency, use a value between min and max
-            min_price, max_price = self.services.get(service, (0, 0))
-            cost = (min_price + max_price) / 2  # Use average for simplicity
+            cost = self.services.get(service, 0.0)
             total += cost
             services_used.append((service, cost))
-            
+        
         if patient.specialist_needed == 'y':
             service = "Specialist Consultation"
-            cost = self.services.get(service, (0, 0))[0]  # Use min price
+            cost = self.services.get(service, 0.0)
             total += cost
             services_used.append((service, cost))
             
