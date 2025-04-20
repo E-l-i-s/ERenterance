@@ -1,4 +1,15 @@
-class Patient:
+from abc import ABC, abstractmethod
+from typing import Optional, Dict
+
+class Person(ABC):
+    def __init__(self, name: str, age: int):
+        self.name = name
+        self.age = age
+    @abstractmethod
+    def get_summary(self) -> str:
+        pass
+
+class Patient(Person):
     """
     Encapsulates one patient record.
     Constructor args:
@@ -16,15 +27,13 @@ class Patient:
     Attributes:
       total: float  # set when billing is processed
     """
-    def __init__(self, patient_id, name, age,
-                 urgent_care, specialist_needed,
-                 regular_checkup, follow_up,
-                 insurance, chronic_condition,
-                 specific_doctor, insurance_type):
-        # Assign to self.* exactly these fields, no extras.
+    def __init__(self, patient_id: str, name: str, age: int,
+                 urgent_care: str, specialist_needed: str,
+                 regular_checkup: str, follow_up: str,
+                 insurance: str, chronic_condition: str,
+                 specific_doctor: Optional[Dict], insurance_type: Optional[str]):
+        super().__init__(name, age)
         self.patient_id = patient_id
-        self.name = name
-        self.age = age
         self.urgent_care = urgent_care
         self.specialist_needed = specialist_needed
         self.regular_checkup = regular_checkup
@@ -33,14 +42,23 @@ class Patient:
         self.chronic_condition = chronic_condition
         self.specific_doctor = specific_doctor
         self.insurance_type = insurance_type
-        self.total = 0.0
+
 
     def __str__(self):
-        # Return a readable string: 
-        # "Patient ID: P1001, Name: Alice, Age: 30, Urgent Care: y, Doctor: D002"
         doctor_info = ""
         if self.specific_doctor:
             doctor_info = f", Doctor: {self.specific_doctor['DoctorID']}"
         return f"Patient ID: {self.patient_id}, Name: {self.name}, Age: {self.age}, Urgent Care: {self.urgent_care}{doctor_info}"
+    def get_summary(self):
+        return str(self)
 
-    
+class Doctor(Person):
+    def __init__(self, doctor_id: str, name: str, age: int, department: str):
+        super().__init__(name, age)
+        self.doctor_id = doctor_id
+        self.department = department
+        self.skills = ("doctor",)
+    def __str__(self):
+        return f"Doctor ID: {self.doctor_id}, Name: {self.name}, Dept: {self.department}"
+    def get_summary(self):
+        return str(self)
