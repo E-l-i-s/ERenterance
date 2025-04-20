@@ -1,7 +1,7 @@
 import csv
 from typing import Dict, List
 
-def load_doctors(filepath="data/doctors.csv") -> Dict[str, List[Dict]]:
+def load_doctors(file="data/doctors.csv") -> Dict[str, List[Dict]]:
     """
     Returns a dict mapping Department -> list of doctors:
       { "Cardiology": [ { "DoctorID": "D001", "DoctorName": "Alice Hart" }, ... ], ... }
@@ -9,7 +9,7 @@ def load_doctors(filepath="data/doctors.csv") -> Dict[str, List[Dict]]:
     doctors_by_dept = {}
     
     try:
-        with open(filepath, 'r', newline='') as csvfile:
+        with open(file, 'r', newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 department = row["Department"]
@@ -24,9 +24,9 @@ def load_doctors(filepath="data/doctors.csv") -> Dict[str, List[Dict]]:
                 doctors_by_dept[department].append(doctor_info)
         
         if not doctors_by_dept:
-            print(f"Warning: No doctors found in {filepath}. Please check the file format.")
+            print(f"Warning: No doctors found in {file}. Please check the file format.")
             
         return doctors_by_dept
     except FileNotFoundError:
-        print(f"Warning: {filepath} not found. Please create this file with DoctorID, DoctorName, Department columns.")
+        print(f"Warning: {file} not found. Please create this file with DoctorID, DoctorName, Department columns.")
         return {}
