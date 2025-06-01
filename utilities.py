@@ -3,6 +3,7 @@ import os
 import ast
 from typing import List
 from patient import Patient
+import time
 
 def get_valid_input(prompt: str, kind="text", valid_range=None):
     while True:
@@ -39,6 +40,28 @@ def bubble_sort_patients_by_age(patients):
                 sorted_patients[j], sorted_patients[j+1] = sorted_patients[j+1], sorted_patients[j]
     return sorted_patients
 
+# Recursive Merge Sort
+def merge_sort_patients_by_name(patients):
+    if len(patients) <= 1:
+        return patients
+    mid = len(patients) // 2
+    left = merge_sort_patients_by_name(patients[:mid])
+    right = merge_sort_patients_by_name(patients[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i].name.lower() <= right[j].name.lower():
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result
 
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
     """
