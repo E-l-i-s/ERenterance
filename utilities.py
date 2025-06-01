@@ -63,6 +63,13 @@ def merge(left, right):
     result.extend(right[j:])
     return result
 
+# Loop-based Linear Search
+def linear_search_patient_by_id(patients, patient_id):
+    for patient in patients:
+        if patient.patient_id == patient_id:
+            return patient
+    return None
+
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
     """
     Read CSV. For each row:
