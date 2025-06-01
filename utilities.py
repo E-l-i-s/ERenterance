@@ -29,6 +29,16 @@ def get_valid_input(prompt: str, kind="text", valid_range=None):
                 return user_input
             print(f"Please enter one of the following: {', '.join(str(x) for x in valid_range)}")
 
+# Loop-based Bubble Sort
+def bubble_sort_patients_by_age(patients):
+    n = len(patients)
+    sorted_patients = patients[:]
+    for i in range(n):
+        for j in range(0, n-i-1):
+            if sorted_patients[j].age > sorted_patients[j+1].age:
+                sorted_patients[j], sorted_patients[j+1] = sorted_patients[j+1], sorted_patients[j]
+    return sorted_patients
+
 
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
     """
