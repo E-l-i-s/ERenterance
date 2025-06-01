@@ -5,15 +5,12 @@ from typing import List
 from patient import Patient
 
 def get_valid_input(prompt: str, kind="text", valid_range=None):
-    """Prompt user; validate text, number, or yes_no."""
     while True:
         user_input = input(prompt)
-        
         if kind == "text":
             if user_input.strip():
                 return user_input
             print("Input cannot be empty. Please try again.")
-            
         elif kind == "number":
             try:
                 num = int(user_input)
@@ -23,16 +20,14 @@ def get_valid_input(prompt: str, kind="text", valid_range=None):
                 return num
             except ValueError:
                 print("Please enter a valid number.")
-                
         elif kind == "yes_no":
             if user_input.lower() in ['y', 'n']:
                 return user_input.lower()
             print("Please enter 'y' or 'n'.")
-            
         elif kind == "choice":
             if valid_range and user_input in valid_range:
                 return user_input
-            print(f"Please enter one of the following: {', '.join(valid_range)}")
+            print(f"Please enter one of the following: {', '.join(str(x) for x in valid_range)}")
 
 
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
@@ -202,3 +197,4 @@ def pandas_patient_summary(csv_path="data/patients.csv"):
             pass
     except Exception as e:
         print("Error reading patient data:", e)
+
