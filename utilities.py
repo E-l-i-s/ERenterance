@@ -70,6 +70,22 @@ def linear_search_patient_by_id(patients, patient_id):
             return patient
     return None
 
+# Recursive Binary Search (on sorted list by name)
+def binary_search_patient_by_name(patients, target_name, low=0, high=None):
+    if high is None:
+        high = len(patients) - 1
+    if low > high:
+        return None
+    mid = (low + high) // 2
+    mid_name = patients[mid].name.lower()
+    if mid_name == target_name.lower():
+        return patients[mid]
+    elif mid_name > target_name.lower():
+        return binary_search_patient_by_name(patients, target_name, low, mid-1)
+    else:
+        return binary_search_patient_by_name(patients, target_name, mid+1, high)
+    
+
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
     """
     Read CSV. For each row:
