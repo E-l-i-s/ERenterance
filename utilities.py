@@ -85,6 +85,15 @@ def binary_search_patient_by_name(patients, target_name, low=0, high=None):
     else:
         return binary_search_patient_by_name(patients, target_name, mid+1, high)
     
+# Truth Table / Logical Evaluation
+
+def filter_patients_truth_table(patients, urgent=None, insured=None):
+    filtered = []
+    for p in patients:
+        if (urgent is None or p.urgent_care == urgent) and (insured is None or p.insurance == insured):
+            filtered.append(p)
+    return filtered
+
 
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
     """
