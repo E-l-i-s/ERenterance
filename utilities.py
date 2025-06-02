@@ -94,6 +94,17 @@ def filter_patients_truth_table(patients, urgent=None, insured=None):
             filtered.append(p)
     return filtered
 
+# Performance Analysis
+
+def compare_sort_performance(patients):
+    start = time.time()
+    bubble_sort_patients_by_age(patients)
+    bubble_time = time.time() - start
+    start = time.time()
+    merge_sort_patients_by_name(patients)
+    merge_time = time.time() - start
+    print(f"Bubble Sort (by age): {bubble_time:.6f} seconds")
+    print(f"Merge Sort (by name): {merge_time:.6f} seconds")
 
 def load_patients_from_csv(filepath="data/patients.csv") -> List[Patient]:
     """
