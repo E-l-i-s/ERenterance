@@ -14,3 +14,5 @@ P1016,Emergency Services,100.00,100.00,10.00,cash,2025-04-20
 P1015,Regular Checkup,45.00,45.00,9.00,card,2025-04-20
 P1016,Regular Checkup,45.00,75.00,15.00,card,2025-06-02
 P1016,Specialist Consultation,30.00,75.00,15.00,card,2025-06-02
+P1018,Regular Checkup,45.00,75.00,75.00,card,2025-06-02
+P1018,Specialist Consultation,30.00,75.00,75.00,card,2025-06-02

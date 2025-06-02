@@ -303,10 +303,26 @@ class HospitalSystem:
                 patient = binary_search_patient_by_name(sorted_patients, name)
                 print(str(patient) if patient else "Not found.")
             elif choice == 6:
-                urgent = get_valid_input("Urgent care? (y/n/leave blank): ", "text")
-                insured = get_valid_input("Insured? (y/n/leave blank): ", "text")
-                urgent = urgent if urgent in ['y', 'n'] else None
-                insured = insured if insured in ['y', 'n'] else None
+                # Get 'urgent' input and validate it
+                while True:
+                    urgent = input("Urgent care? (y/n, press Enter to leave blank): ").strip().lower()
+                    if urgent == '':
+                        urgent = None
+                        break
+                    elif urgent in ['y', 'n']:
+                        break
+                    else:
+                        print("Please input valid option: 'y', 'n' or just press Enter to leave blank.")
+                # Get 'insured' input and validate it
+                while True:
+                    insured = input("Insured? (y/n, press Enter to leave blank): ").strip().lower()
+                    if insured == '':
+                        insured = None
+                        break
+                    elif insured in ['y', 'n']:
+                        break
+                    else:
+                        print("Please input valid option: 'y', 'n' or just press Enter to leave blank.")
                 from utilities import filter_patients_truth_table
                 filtered = filter_patients_truth_table(self.patients, urgent, insured)
                 print("\nFiltered Patients:")
